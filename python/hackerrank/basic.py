@@ -559,3 +559,89 @@ p=input()
 m=input()
 print pow(n,p)
 print pow(n,p,m)
+
+
+#######################################################################
+"""
+permutations
+Sample Input
+
+HACK 2
+Sample Output
+
+AC
+AH
+AK
+CA
+CH
+CK
+HA
+HC
+HK
+KA
+KC
+KH
+
+"""
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+from itertools import permutations
+s,n=raw_input().split()
+for i in sorted(list(permutations(s,int(n)))):
+    print ''.join(i)
+	
+	
+###########################################################################
+"""
+cominations 
+Sample Input
+
+HACK 2
+Sample Output
+
+A
+C
+H
+K
+AC
+AH
+AK
+CH
+CK
+HK
+
+"""
+
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+from itertools import combinations
+s,n=raw_input().split()
+A=[]
+s=sorted(s)
+for j in range(1,int(n)+1):
+    for i in list(combinations(s,j)):
+         print ''.join(sorted(i))
+		 
+##########################################################################
+
+# deque functions 
+
+from collections import deque
+d=deque()
+for i in range(input()):
+    x=raw_input().split()
+    if x[0]=='append':
+        d.append(x[1])
+    elif x[0]=='appendleft':
+        d.appendleft(x[1])
+    elif x[0]=='pop':
+        d.pop()
+    elif x[0]=='popleft':
+        d.popleft()
+    elif x[0]=='rotate':
+        d.rotate()
+    elif x[0]=='remove':
+        d.remove(x[1])
+    elif x[0]=='reverse':
+        d.reverse()
+
+s=" ".join(d)
+print s
