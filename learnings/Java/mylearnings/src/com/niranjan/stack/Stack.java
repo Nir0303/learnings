@@ -6,11 +6,11 @@ package com.niranjan.stack;
 public class Stack {
     int tos;
     int stack[];
-    Stack(){
+    public Stack(){
         tos=-1;
         stack=new int[10];
     }
-    void push(int l){
+    public void push(int l){
         if (tos>9){
             System.out.println("Stack overflow");
         }
@@ -18,7 +18,7 @@ public class Stack {
             stack[++tos]=l;
         }
     }
-    int pop(){
+    public int pop(){
         if (tos<0){
             System.out.println("Stack underflow");
             return -1;
