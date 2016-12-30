@@ -3,25 +3,36 @@ package com.niranjan.oliveprocessing.model;
 /**
  * Created by Niran0303 on 12/30/2016.
  */
-public class Olive {
+public abstract class Olive {
 
-    public String name="kalamata";
-    public String color="Blue";
-    public double qty=2.0;
+    /* constant declaration
+    public static final String KALAMATA="kalamata";
+    public static final String ROSE="rose";
+    public static final String BERRY="berry";
+    */
 
-    public String getName() {
+    private OliveNames name=OliveNames.KALAMATA;
+    private OliveColors color=OliveColors.BLUE;
+    private double qty=2.0;
+    public Olive(){};
+    public Olive(OliveNames name,OliveColors color,double qty){
+        this.name=name;
+        this.color=color;
+        this.qty=qty;
+    }
+    public OliveNames getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(OliveNames name) {
         this.name = name;
     }
 
-    public String getColor() {
+    public OliveColors getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(OliveColors color) {
         this.color = color;
     }
 
@@ -32,6 +43,6 @@ public class Olive {
     public void setQty(double qty) {
         this.qty = qty;
     }
-
+    public abstract String getOrigin();
 
 }
