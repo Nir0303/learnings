@@ -15,7 +15,6 @@ public class Condiitinal {
     public static void main(String[] args) {
 
         Scanner sc=new Scanner(System.in);
-        Integer.par
         int n=sc.nextInt();
         String ans="";
         if(n%2==1){

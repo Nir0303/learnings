@@ -1,8 +1,14 @@
 package com.hackerrank.java.basic;
 
-import package
+import java.util.Scanner;
 /**
- * Created by Niran0303 on 12/30/2016.
+ * Input Format
+
+ There are three lines of input:
+
+ The first line contains an integer.
+ The second line contains a double.
+ The third line contains a String
  */
 public class advanceIO {
     public static void main(String[] args) {
