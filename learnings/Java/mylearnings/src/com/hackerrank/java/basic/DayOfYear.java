@@ -11,8 +11,7 @@ public class DayOfYear {
     public static void main(String args[]){
         Calendar cal =  Calendar.getInstance();
         cal.set(2016,12,30);
-        DateTimeFormatter dft = new DateTimeFormatter();
-        System.out.println(cal.DAY_OF_WEEK);
+
 
 
     }
