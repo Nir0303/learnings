@@ -17,7 +17,7 @@ import java.lang.reflect.*;
 
 public class Annotations {
     @MyAnno(val=1000,str="Testing annontation")
-    
+
     public static void meth() throws NoSuchMethodException{
         Annotations a= new Annotations();
         Class<?> c = a.getClass();
