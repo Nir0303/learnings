@@ -1,0 +1,277 @@
+{
+  "metadata" : {
+    "name" : "wordCount",
+    "user_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "auto_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customArgs" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "5F473CB54A4D469A8C18F07FDC86B794"
+    },
+    "cell_type" : "code",
+    "source" : "sc",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res53: org.apache.spark.SparkContext = org.apache.spark.SparkContext@5a3b00fc\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "org.apache.spark.SparkContext@5a3b00fc"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 34
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "9DD09CBFB6264107895EC1AF767B50A8"
+    },
+    "cell_type" : "code",
+    "source" : "val fileData = sc.textFile(\"../DataSet/gutenberg/2000010.txt\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "fileData: org.apache.spark.rdd.RDD[String] = MapPartitionsRDD[80] at textFile at <console>:53\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 49
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "71FDB8AD86964C03A5EAB6AC51D16B15"
+    },
+    "cell_type" : "code",
+    "source" : "val wordCount = fileData.flatMap{ x => x.split(\"\\\\s\")}\n                        .map(word => (word.toLowerCase,1))\n                        .reduceByKey(_+_)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "wordCount: org.apache.spark.rdd.RDD[(String, Int)] = ShuffledRDD[107] at reduceByKey at <console>:57\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 59
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "47B3296D5C0D413EB5D58C65A67F95A3"
+    },
+    "cell_type" : "markdown",
+    "source" : "sort words by occurences"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab1409999257-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "2462060A7F1B4B8396414F114D884775"
+    },
+    "cell_type" : "code",
+    "source" : "val wordCountSort = wordCount.sortBy(x=> x._2,false)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "wordCountSort: org.apache.spark.rdd.RDD[(String, Int)] = MapPartitionsRDD[112] at sortBy at <console>:57\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 60
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab227696005-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "8729A1CCD91441718A1FEE04636A7E1C"
+    },
+    "cell_type" : "code",
+    "source" : "wordCountSort.take(5)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res89: Array[(String, Int)] = Array((the,8208), (\"\",5048), (of,3858), (to,2462), (and,2300))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon3957bc012ffb1b386bf971d887692076&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;the&quot;,&quot;_2&quot;:8208},{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:5048},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:3858},{&quot;_1&quot;:&quot;to&quot;,&quot;_2&quot;:2462},{&quot;_1&quot;:&quot;and&quot;,&quot;_2&quot;:2300}],&quot;genId&quot;:&quot;227696005&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tabs'], \n      function(playground, _magictabs) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictabs,\n    \"o\": {}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <div>\n          <ul class=\"nav nav-tabs\" id=\"ul227696005\"><li>\n                <a href=\"#tab227696005-0\"><i class=\"fa fa-table\"/></a>\n              </li><li>\n                <a href=\"#tab227696005-1\"><i class=\"fa fa-bar-chart\"/></a>\n              </li><li>\n                <a href=\"#tab227696005-2\"><i class=\"fa fa-pie-chart\"/></a>\n              </li><li>\n                <a href=\"#tab227696005-3\"><i class=\"fa fa-cubes\"/></a>\n              </li></ul>\n\n          <div class=\"tab-content\" id=\"tab227696005\"><div class=\"tab-pane\" id=\"tab227696005-0\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anonbf8b801b7393d1f44c98285d594fa3bd&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;the&quot;,&quot;_2&quot;:8208},{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:5048},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:3858},{&quot;_1&quot;:&quot;to&quot;,&quot;_2&quot;:2462},{&quot;_1&quot;:&quot;and&quot;,&quot;_2&quot;:2300}],&quot;genId&quot;:&quot;120776931&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"_1\",\"_2\"],\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anond56ce5aa5e2f68ff856bebd4b0e4aad3&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon84cc3df4c5a3934b36adcc2a7c034064&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab227696005-1\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon7d6d1f573bc534c859a4aec4cddb94d8&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;the&quot;,&quot;_2&quot;:8208},{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:5048},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:3858},{&quot;_1&quot;:&quot;to&quot;,&quot;_2&quot;:2462},{&quot;_1&quot;:&quot;and&quot;,&quot;_2&quot;:2300}],&quot;genId&quot;:&quot;460411936&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/barChart'], \n      function(playground, _magicbarChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicbarChart,\n    \"o\": {\"x\":\"_1\",\"y\":\"_2\",\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon68bd362e46263f7b49a1f2d03ced0960&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon08267472bfdc56aedd22b08e0ff5deeb&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab227696005-2\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anondbdb982315e0c85230e7b972de9f83e8&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;the&quot;,&quot;_2&quot;:8208},{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:5048},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:3858},{&quot;_1&quot;:&quot;to&quot;,&quot;_2&quot;:2462},{&quot;_1&quot;:&quot;and&quot;,&quot;_2&quot;:2300}],&quot;genId&quot;:&quot;1403769091&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pieChart'], \n      function(playground, _magicpieChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpieChart,\n    \"o\": {\"series\":\"_1\",\"p\":\"_2\",\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon77a3996f4b859df75f974b10a2a85dca&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon3734717052f3ea82efce6d79bdd9fb0e&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab227696005-3\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anone3a5b778ccc38bd4e0f9852ccc235fb9&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;the&quot;,&quot;_2&quot;:8208},{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:5048},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:3858},{&quot;_1&quot;:&quot;to&quot;,&quot;_2&quot;:2462},{&quot;_1&quot;:&quot;and&quot;,&quot;_2&quot;:2300}],&quot;genId&quot;:&quot;793994565&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pivotChart'], \n      function(playground, _magicpivotChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpivotChart,\n    \"o\": {\"width\":600,\"height\":400,\"derivedAttributes\":{},\"extraOptions\":{}}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon2fdbee978315fe0234e39aff8392e36c&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon26776f29ddaafcdb4bc930a9c3f1904f&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div></div>\n        </div>\n      </div></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 61
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "DEB584B8981147BC808784899E78CFEC"
+    },
+    "cell_type" : "code",
+    "source" : "val allFiles = sc.wholeTextFiles(\"../DataSet/gutenberg/\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "allFiles: org.apache.spark.rdd.RDD[(String, String)] = MapPartitionsRDD[114] at wholeTextFiles at <console>:53\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 62
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "E31CFD2307E948D781491BF5908675B3"
+    },
+    "cell_type" : "markdown",
+    "source" : "Sort by Occurence of Multiple Data sets"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab1872325536-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "AF03B106CEB44204881FC15031A14BF1"
+    },
+    "cell_type" : "code",
+    "source" : "val allWordCounts = allFiles.values.flatMap{x => x.split(\"\\\\s\")}\n                                  .map{ word => (word.toLowerCase,1)}\n                                 .reduceByKey{_+_}\n                                  .sortBy(x=> x._2,false)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "allWordCounts: org.apache.spark.rdd.RDD[(String, Int)] = MapPartitionsRDD[123] at sortBy at <console>:58\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 63
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab707149082-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "A0449801DF014CAE8FDB0E0B24D1B123"
+    },
+    "cell_type" : "code",
+    "source" : "allWordCounts.take(5)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res93: Array[(String, Int)] = Array((\"\",50552), (the,19463), (of,9087), (and,8657), (to,7126))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon71d690d462fc6bad021621028128e911&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:50552},{&quot;_1&quot;:&quot;the&quot;,&quot;_2&quot;:19463},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:9087},{&quot;_1&quot;:&quot;and&quot;,&quot;_2&quot;:8657},{&quot;_1&quot;:&quot;to&quot;,&quot;_2&quot;:7126}],&quot;genId&quot;:&quot;707149082&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tabs'], \n      function(playground, _magictabs) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictabs,\n    \"o\": {}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <div>\n          <ul class=\"nav nav-tabs\" id=\"ul707149082\"><li>\n                <a href=\"#tab707149082-0\"><i class=\"fa fa-table\"/></a>\n              </li><li>\n                <a href=\"#tab707149082-1\"><i class=\"fa fa-bar-chart\"/></a>\n              </li><li>\n                <a href=\"#tab707149082-2\"><i class=\"fa fa-pie-chart\"/></a>\n              </li><li>\n                <a href=\"#tab707149082-3\"><i class=\"fa fa-cubes\"/></a>\n              </li></ul>\n\n          <div class=\"tab-content\" id=\"tab707149082\"><div class=\"tab-pane\" id=\"tab707149082-0\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anona836785966c766e5648d32f61ce265e4&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:50552},{&quot;_1&quot;:&quot;the&quot;,&quot;_2&quot;:19463},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:9087},{&quot;_1&quot;:&quot;and&quot;,&quot;_2&quot;:8657},{&quot;_1&quot;:&quot;to&quot;,&quot;_2&quot;:7126}],&quot;genId&quot;:&quot;791209234&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"_1\",\"_2\"],\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anoncf911d0db52ea86c56646c54ac2e0751&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon9e7f705e8a4502d7d2b1990770d6eb2e&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab707149082-1\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anoncc42e83bcfb3754af746a43e83be7d17&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:50552},{&quot;_1&quot;:&quot;the&quot;,&quot;_2&quot;:19463},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:9087},{&quot;_1&quot;:&quot;and&quot;,&quot;_2&quot;:8657},{&quot;_1&quot;:&quot;to&quot;,&quot;_2&quot;:7126}],&quot;genId&quot;:&quot;717820414&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/barChart'], \n      function(playground, _magicbarChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicbarChart,\n    \"o\": {\"x\":\"_1\",\"y\":\"_2\",\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon2c10340ff54e6c7337391cba7fb9b653&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon000581823c17991f4443f60ed510f47a&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab707149082-2\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon67a0021c5c40e8dc6b22dcc90fad83ed&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:50552},{&quot;_1&quot;:&quot;the&quot;,&quot;_2&quot;:19463},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:9087},{&quot;_1&quot;:&quot;and&quot;,&quot;_2&quot;:8657},{&quot;_1&quot;:&quot;to&quot;,&quot;_2&quot;:7126}],&quot;genId&quot;:&quot;317927512&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pieChart'], \n      function(playground, _magicpieChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpieChart,\n    \"o\": {\"series\":\"_1\",\"p\":\"_2\",\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon313f65a43d23b47bafc3bfbd03640d38&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon688b3933a541b1b09fb577e9187a4337&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab707149082-3\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon64984ec506e47be818266c63bcfe51c5&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:50552},{&quot;_1&quot;:&quot;the&quot;,&quot;_2&quot;:19463},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:9087},{&quot;_1&quot;:&quot;and&quot;,&quot;_2&quot;:8657},{&quot;_1&quot;:&quot;to&quot;,&quot;_2&quot;:7126}],&quot;genId&quot;:&quot;1299392927&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pivotChart'], \n      function(playground, _magicpivotChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpivotChart,\n    \"o\": {\"width\":600,\"height\":400,\"derivedAttributes\":{},\"extraOptions\":{}}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon47a61fcf1137672294de1f9059b0899e&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon6b4c778bfc31c3a4f95e9e203c3d9f60&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div></div>\n        </div>\n      </div></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 64
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab1095930692-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "39385E1A2E3D4A04ADA7A1B330D9719B"
+    },
+    "cell_type" : "code",
+    "source" : "val endWithLastLetters=allWordCounts.map{x =>(x._1.takeRight(2),x._2)}\n                                    .reduceByKey(_+_)\n                                    .sortBy(x => x._2,false)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "endWithLastLetters: org.apache.spark.rdd.RDD[(String, Int)] = MapPartitionsRDD[137] at sortBy at <console>:59\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 72
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab947518451-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "8649542B7F35448095F87647BF972A93"
+    },
+    "cell_type" : "code",
+    "source" : "endWithLastLetters.take(5)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res108: Array[(String, Int)] = Array((\"\",50552), (he,23166), (ed,11163), (nd,10714), (of,9123))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anonbef45232dae9244995ca00e047f142fe&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:50552},{&quot;_1&quot;:&quot;he&quot;,&quot;_2&quot;:23166},{&quot;_1&quot;:&quot;ed&quot;,&quot;_2&quot;:11163},{&quot;_1&quot;:&quot;nd&quot;,&quot;_2&quot;:10714},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:9123}],&quot;genId&quot;:&quot;947518451&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tabs'], \n      function(playground, _magictabs) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictabs,\n    \"o\": {}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <div>\n          <ul class=\"nav nav-tabs\" id=\"ul947518451\"><li>\n                <a href=\"#tab947518451-0\"><i class=\"fa fa-table\"/></a>\n              </li><li>\n                <a href=\"#tab947518451-1\"><i class=\"fa fa-bar-chart\"/></a>\n              </li><li>\n                <a href=\"#tab947518451-2\"><i class=\"fa fa-pie-chart\"/></a>\n              </li><li>\n                <a href=\"#tab947518451-3\"><i class=\"fa fa-cubes\"/></a>\n              </li></ul>\n\n          <div class=\"tab-content\" id=\"tab947518451\"><div class=\"tab-pane\" id=\"tab947518451-0\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anoncd879f65c298f40706fcdaffbcbc38ac&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:50552},{&quot;_1&quot;:&quot;he&quot;,&quot;_2&quot;:23166},{&quot;_1&quot;:&quot;ed&quot;,&quot;_2&quot;:11163},{&quot;_1&quot;:&quot;nd&quot;,&quot;_2&quot;:10714},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:9123}],&quot;genId&quot;:&quot;1028876266&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"_1\",\"_2\"],\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon7536d5d832e78e63e57144a7a967ba96&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon764010778b298b8fbdc90f005dfeb2a9&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab947518451-1\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon9c41146b1a903af180d75c12fd5bb41c&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:50552},{&quot;_1&quot;:&quot;he&quot;,&quot;_2&quot;:23166},{&quot;_1&quot;:&quot;ed&quot;,&quot;_2&quot;:11163},{&quot;_1&quot;:&quot;nd&quot;,&quot;_2&quot;:10714},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:9123}],&quot;genId&quot;:&quot;627549050&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/barChart'], \n      function(playground, _magicbarChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicbarChart,\n    \"o\": {\"x\":\"_1\",\"y\":\"_2\",\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anona5b0e6d367a89443b5cc45bd9dfb818c&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anonfffd1fb443396e545b5209b817908ede&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab947518451-2\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anonca407dc3d01494cb75f657a17440fd6e&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:50552},{&quot;_1&quot;:&quot;he&quot;,&quot;_2&quot;:23166},{&quot;_1&quot;:&quot;ed&quot;,&quot;_2&quot;:11163},{&quot;_1&quot;:&quot;nd&quot;,&quot;_2&quot;:10714},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:9123}],&quot;genId&quot;:&quot;2075407178&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pieChart'], \n      function(playground, _magicpieChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpieChart,\n    \"o\": {\"series\":\"_1\",\"p\":\"_2\",\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon1aaf1604d3b3ae17565d95aa48c91aac&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon3a588073e07f9dbfaee129c93b747e09&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab947518451-3\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anonf75c678c7685b7d30473e915b6e65229&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:&quot;&quot;,&quot;_2&quot;:50552},{&quot;_1&quot;:&quot;he&quot;,&quot;_2&quot;:23166},{&quot;_1&quot;:&quot;ed&quot;,&quot;_2&quot;:11163},{&quot;_1&quot;:&quot;nd&quot;,&quot;_2&quot;:10714},{&quot;_1&quot;:&quot;of&quot;,&quot;_2&quot;:9123}],&quot;genId&quot;:&quot;804875318&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pivotChart'], \n      function(playground, _magicpivotChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpivotChart,\n    \"o\": {\"width\":600,\"height\":400,\"derivedAttributes\":{},\"extraOptions\":{}}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anonc77436ecb8e0c581c0f53e1dcd80c0eb&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon4f67f3f22c9a8355da77af4449eaf7c3&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div></div>\n        </div>\n      </div></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 73
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true,
+      "id" : "1C9D5A9AFAFD4E08842B56009260337F"
+    },
+    "cell_type" : "code",
+    "source" : "",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

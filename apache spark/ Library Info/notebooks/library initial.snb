@@ -1,0 +1,182 @@
+{
+  "metadata" : {
+    "name" : "library initial",
+    "user_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "auto_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customArgs" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "5F96836201AC4CDE9280955BA6A6156E"
+    },
+    "cell_type" : "code",
+    "source" : "sc",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res1: org.apache.spark.SparkContext = org.apache.spark.SparkContext@5a7e6f61\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "org.apache.spark.SparkContext@5a7e6f61"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 1
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "0041975496464825888AA7381BE81A35"
+    },
+    "cell_type" : "code",
+    "source" : "val fileData= sc.textFile(\"../DataSet/Library_Usage.csv\").zipWithIndex",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "fileData: org.apache.spark.rdd.RDD[(String, Long)] = ZippedWithIndexRDD[4] at zipWithIndex at <console>:53\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 6
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "5D87B0DA2B214D9F85B4DC7394274073"
+    },
+    "cell_type" : "code",
+    "source" : "val fileDatawithOutIndex = fileData.filter(x=> x._2 !=0).map(x => x._1)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "fileDatawithOutIndex: org.apache.spark.rdd.RDD[String] = MapPartitionsRDD[8] at map at <console>:55\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 14
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "E043D1A2A70F4881824485A3C7445AF2"
+    },
+    "cell_type" : "code",
+    "source" : "case class LibraryData (PatronTypeCode:Int,PatronTypeDefinition:String,TotalCheckouts:Int,TotalRenewals:Int)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "defined class LibraryData\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 31
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "02CC2B40E69F4B2E83E95CDD17464CEF"
+    },
+    "cell_type" : "code",
+    "source" : "val parseData = fileDatawithOutIndex.map{x => \n                                         val y=x.split(\",\")\n                                        LibraryData(y(0).toInt,y(1),y(2).toInt,y(3).toInt)}.keyBy(_.PatronTypeCode)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "parseData: org.apache.spark.rdd.RDD[(Int, LibraryData)] = MapPartitionsRDD[19] at keyBy at <console>:61\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 38
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab578260096-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Integer Sum\",\n  \"rendererName\": \"Table Barchart\"\n}"
+      },
+      "id" : "2B2AB900885F480F83783C9AA0BB283C"
+    },
+    "cell_type" : "code",
+    "source" : "parseData.take(5)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res48: Array[(Int, LibraryData)] = Array((3,LibraryData(3,SENIOR,28,13)), (0,LibraryData(0,ADULT,21,10)), (0,LibraryData(0,ADULT,275,559)), (0,LibraryData(0,ADULT,73,38)), (0,LibraryData(0,ADULT,182,90)))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anonc4edce7ec0e7e828775b38b550fad1f4&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:3,&quot;_2&quot;:&quot;LibraryData(3,SENIOR,28,13)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,21,10)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,275,559)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,73,38)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,182,90)&quot;}],&quot;genId&quot;:&quot;578260096&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tabs'], \n      function(playground, _magictabs) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictabs,\n    \"o\": {}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <div>\n          <ul class=\"nav nav-tabs\" id=\"ul578260096\"><li>\n                <a href=\"#tab578260096-0\"><i class=\"fa fa-table\"/></a>\n              </li><li>\n                <a href=\"#tab578260096-1\"><i class=\"fa fa-cubes\"/></a>\n              </li></ul>\n\n          <div class=\"tab-content\" id=\"tab578260096\"><div class=\"tab-pane\" id=\"tab578260096-0\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anonc3d8f1f0ae7c63345fc092b2beb5a37b&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:3,&quot;_2&quot;:&quot;LibraryData(3,SENIOR,28,13)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,21,10)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,275,559)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,73,38)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,182,90)&quot;}],&quot;genId&quot;:&quot;887840765&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"_1\",\"_2\"],\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon5d0a85f46d75b69479f4e43da6311b95&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon9005d1576feb4098c82ccec51c276a26&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab578260096-1\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anonc771e5e97af1832f3b04ff0e5c246eac&quot;,&quot;dataInit&quot;:[{&quot;_1&quot;:3,&quot;_2&quot;:&quot;LibraryData(3,SENIOR,28,13)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,21,10)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,275,559)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,73,38)&quot;},{&quot;_1&quot;:0,&quot;_2&quot;:&quot;LibraryData(0,ADULT,182,90)&quot;}],&quot;genId&quot;:&quot;942767281&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pivotChart'], \n      function(playground, _magicpivotChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpivotChart,\n    \"o\": {\"width\":600,\"height\":400,\"derivedAttributes\":{},\"extraOptions\":{}}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon2ecc819bc912147309175a70e7ec74d5&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon29a05f8e0a8b6885dca3fc939733d00d&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div></div>\n        </div>\n      </div></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 39
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "A544BC2DF50B4EC3910157C740F7E698"
+    },
+    "cell_type" : "code",
+    "source" : "val aggRDD = parseData.map{x => x}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "aggRDD: org.apache.spark.rdd.RDD[libraryData] = MapPartitionsRDD[11] at map at <console>:61\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 30
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true,
+      "id" : "2254D5A4565944FD8821F63BBD2A1EDF"
+    },
+    "cell_type" : "code",
+    "source" : "",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}
