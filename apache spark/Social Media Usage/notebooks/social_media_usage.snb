@@ -1,0 +1,153 @@
+{
+  "metadata" : {
+    "name" : "social_media_usage",
+    "user_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "auto_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customArgs" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "667983BFD2A0453B89988FD3B34BCF18"
+    },
+    "cell_type" : "code",
+    "source" : "sc",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res1: org.apache.spark.SparkContext = org.apache.spark.SparkContext@31a97ee6\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "org.apache.spark.SparkContext@31a97ee6"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 1
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "CBC5188CEA8F475C96E26F7974D44321"
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.sql._",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import org.apache.spark.sql._\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 4
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "D3AFF92119DE4488923E82C1A7865511"
+    },
+    "cell_type" : "code",
+    "source" : "val sqlContext = new SQLContext(sc)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "sqlContext: org.apache.spark.sql.SQLContext = org.apache.spark.sql.SQLContext@5d55eb3c\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "DA16220C00F84D78B1B147E9A92CB80E"
+    },
+    "cell_type" : "code",
+    "source" : "val dataDF = sqlContext.read.format(\"json\").load(\"../Data/usage.json\")\n\n\nval filterDF = dataDF.filter(dataDF(\"_corrupt_record\").contains(\"data\"))\n\nfilterDF.show(100)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "+--------------------+\n|     _corrupt_record|\n+--------------------+\n|        \"dataType...|\n|        \"renderTy...|\n|        \"dataType...|\n|        \"renderTy...|\n|        \"dataType...|\n|        \"renderTy...|\n|        \"dataType...|\n|        \"renderTy...|\n|        \"dataType...|\n|        \"renderTy...|\n|        \"dataType...|\n|        \"renderTy...|\n|        \"dataType...|\n|        \"renderTy...|\n|        \"dataType...|\n|        \"renderTy...|\n|        \"dataType...|\n|        \"dataType...|\n|        \"dataType...|\n|        \"dataType...|\n|        \"dataType...|\n|      \"metadata\" : {|\n|        \"rights\" ...|\n|        \"rights\" ...|\n|      \"tags\" : [ ...|\n|  \"data\" : [ [ 25...|\n|, [ 166, \"D809FC7...|\n|, [ 252, \"143AEEC...|\n|, [ 253, \"6532DBD...|\n|, [ 461, \"E56EE25...|\n|, [ 547, \"E7B6E43...|\n|, [ 548, \"632A09E...|\n|, [ 756, \"6FB4ECD...|\n|, [ 842, \"01443F8...|\n|, [ 843, \"4E7DF74...|\n|, [ 1051, \"3F1286...|\n|, [ 1137, \"F01165...|\n|, [ 1138, \"5C584C...|\n|, [ 1346, \"7A71D9...|\n|, [ 1432, \"D4FE68...|\n|, [ 1433, \"5BD538...|\n|, [ 1641, \"0F3F32...|\n|, [ 1727, \"3D94EB...|\n|, [ 1728, \"B7278D...|\n|, [ 1936, \"77BD92...|\n|, [ 2022, \"E57D27...|\n|, [ 2023, \"CE649D...|\n|, [ 2231, \"7000E2...|\n|, [ 2317, \"02A759...|\n|, [ 2318, \"9DCA91...|\n|, [ 2526, \"5ADBD9...|\n|, [ 2612, \"2D971E...|\n|, [ 2613, \"F6B701...|\n|, [ 2821, \"74FCC6...|\n|, [ 2907, \"D732EA...|\n|, [ 2908, \"B3B56B...|\n|, [ 3116, \"F916A5...|\n|, [ 3202, \"CF3C3D...|\n|, [ 3203, \"037FA6...|\n|, [ 3411, \"93E293...|\n|, [ 3497, \"4BB939...|\n|, [ 3498, \"1ABDD4...|\n|, [ 3706, \"624105...|\n|, [ 3792, \"EBA18B...|\n|, [ 3793, \"C32060...|\n|, [ 4001, \"902077...|\n|, [ 4087, \"57C9EE...|\n|, [ 4088, \"D914E9...|\n|, [ 4296, \"E7BF27...|\n|, [ 4382, \"1275E3...|\n|, [ 4383, \"2BEA35...|\n|, [ 4591, \"3F2D33...|\n|, [ 4677, \"41DDAF...|\n|, [ 4678, \"B074E3...|\n|, [ 4886, \"C36C20...|\n|, [ 4972, \"0239D2...|\n|, [ 4973, \"CA30F0...|\n|, [ 5181, \"73D75F...|\n|, [ 5267, \"D72764...|\n|, [ 5268, \"251688...|\n|, [ 5476, \"852879...|\n|, [ 5562, \"E2C80A...|\n|, [ 5563, \"5920A0...|\n|, [ 5771, \"FB57FE...|\n|, [ 5857, \"E3B0D5...|\n|, [ 5858, \"D86D5A...|\n+--------------------+\n\ndataDF: org.apache.spark.sql.DataFrame = [_corrupt_record: string]\nfilterDF: org.apache.spark.sql.DataFrame = [_corrupt_record: string]\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 41
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "6EEE4917D3E140A2A10ACEFAE6C4559F"
+    },
+    "cell_type" : "code",
+    "source" : "dataDF.registerTempTable(\"ttables\")",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 17
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "401910BC289A4F478FF7BAF87CEBEA38"
+    },
+    "cell_type" : "code",
+    "source" : "sqlContext.sql(\"select * from ttables where _corrupt_record like '%data?' \").show(100)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "+---------------+\n|_corrupt_record|\n+---------------+\n+---------------+\n\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 32
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true,
+      "id" : "E0E94043A8E9468F98B7B90AB433DBA2"
+    },
+    "cell_type" : "code",
+    "source" : "",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}

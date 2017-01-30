@@ -1,0 +1,358 @@
+{
+  "metadata" : {
+    "name" : "top500cities",
+    "user_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "auto_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customArgs" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "52DCDF7965BA4F04B5E9DCFBD7C81152"
+    },
+    "cell_type" : "code",
+    "source" : "sc",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res1: org.apache.spark.SparkContext = org.apache.spark.SparkContext@37590065\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "org.apache.spark.SparkContext@37590065"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 1
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "56A0C599390244FAA4AECE11050581FD"
+    },
+    "cell_type" : "code",
+    "source" : "val fileData = sc.textFile(\"../DataSet/cities_r2.csv\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "fileData: org.apache.spark.rdd.RDD[String] = MapPartitionsRDD[1] at textFile at <console>:53\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 2
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab581140538-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "3BA8569DA63549478DD46EA3A3203E09"
+    },
+    "cell_type" : "code",
+    "source" : "fileData.take(5)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res16: Array[String] = Array(name_of_city,state_code,state_name,dist_code,population_total,population_male,population_female,0-6_population_total,0-6_population_male,0-6_population_female,literates_total,literates_male,literates_female,sex_ratio,child_sex_ratio,effective_literacy_rate_total,effective_literacy_rate_male,effective_literacy_rate_female,location,total_graduates,male_graduates,female_graduates, Abohar ,3,PUNJAB,9,145238,76840,68398,15870,8587,7283,103319,58347,44972,890,848,79.86,85.49,73.59,\"30.1452928,74.1993043\",16287,8612,7675, Achalpur ,27,MAHARASHTRA,7,112293,58256,54037,11810,6186,5624,92433,49347,43086,928,909,91.99,94.77,89,\"21.257584,77.5086754\",8863,5269,3594, Adilabad ,28,ANDHRA PRADESH,1,117388,59232,58156,13103,6731,6372,83955,46295,37660,982,947,80.51,88.18,72..."
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anond406866bd6e22837ff822a6d298fcd41&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;name_of_city,state_code,state_name,dist_code,population_total,population_male,population_female,0-6_population_total,0-6_population_male,0-6_population_female,literates_total,literates_male,literates_female,sex_ratio,child_sex_ratio,effective_literacy_rate_total,effective_literacy_rate_male,effective_literacy_rate_female,location,total_graduates,male_graduates,female_graduates&quot;},{&quot;string value&quot;:&quot;Abohar ,3,PUNJAB,9,145238,76840,68398,15870,8587,7283,103319,58347,44972,890,848,79.86,85.49,73.59,\\&quot;30.1452928,74.1993043\\&quot;,16287,8612,7675&quot;},{&quot;string value&quot;:&quot;Achalpur ,27,MAHARASHTRA,7,112293,58256,54037,11810,6186,5624,92433,49347,43086,928,909,91.99,94.77,89,\\&quot;21.257584,77.5086754\\&quot;,8863,5269,3594&quot;},{&quot;string value&quot;:&quot;Adilabad ,28,ANDHRA PRADESH,1,117388,59232,58156,13103,6731,6372,83955,46295,37660,982,947,80.51,88.18,72.73,\\&quot;19.0809075,79.560344\\&quot;,10565,6797,3768&quot;},{&quot;string value&quot;:&quot;Adityapur ,20,JHARKHAND,24,173988,91495,82493,23042,12063,10979,125985,71470,54515,902,910,83.46,89.98,76.23,\\&quot;22.7834741,86.1576889\\&quot;,19225,12189,7036&quot;}],&quot;genId&quot;:&quot;581140538&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tabs'], \n      function(playground, _magictabs) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictabs,\n    \"o\": {}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <div>\n          <ul class=\"nav nav-tabs\" id=\"ul581140538\"><li>\n                <a href=\"#tab581140538-0\"><i class=\"fa fa-table\"/></a>\n              </li><li>\n                <a href=\"#tab581140538-1\"><i class=\"fa fa-cubes\"/></a>\n              </li></ul>\n\n          <div class=\"tab-content\" id=\"tab581140538\"><div class=\"tab-pane\" id=\"tab581140538-0\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon3d961a4e4198580a579e2911a19f1df5&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;name_of_city,state_code,state_name,dist_code,population_total,population_male,population_female,0-6_population_total,0-6_population_male,0-6_population_female,literates_total,literates_male,literates_female,sex_ratio,child_sex_ratio,effective_literacy_rate_total,effective_literacy_rate_male,effective_literacy_rate_female,location,total_graduates,male_graduates,female_graduates&quot;},{&quot;string value&quot;:&quot;Abohar ,3,PUNJAB,9,145238,76840,68398,15870,8587,7283,103319,58347,44972,890,848,79.86,85.49,73.59,\\&quot;30.1452928,74.1993043\\&quot;,16287,8612,7675&quot;},{&quot;string value&quot;:&quot;Achalpur ,27,MAHARASHTRA,7,112293,58256,54037,11810,6186,5624,92433,49347,43086,928,909,91.99,94.77,89,\\&quot;21.257584,77.5086754\\&quot;,8863,5269,3594&quot;},{&quot;string value&quot;:&quot;Adilabad ,28,ANDHRA PRADESH,1,117388,59232,58156,13103,6731,6372,83955,46295,37660,982,947,80.51,88.18,72.73,\\&quot;19.0809075,79.560344\\&quot;,10565,6797,3768&quot;},{&quot;string value&quot;:&quot;Adityapur ,20,JHARKHAND,24,173988,91495,82493,23042,12063,10979,125985,71470,54515,902,910,83.46,89.98,76.23,\\&quot;22.7834741,86.1576889\\&quot;,19225,12189,7036&quot;}],&quot;genId&quot;:&quot;1579378220&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"string value\"],\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anona46070134d7e65f4ad75c8bfd859a9d0&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon0c9d46973e0e745772c64e1c42518b05&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab581140538-1\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon256e1418ea54864adce092ff40d14cdf&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;name_of_city,state_code,state_name,dist_code,population_total,population_male,population_female,0-6_population_total,0-6_population_male,0-6_population_female,literates_total,literates_male,literates_female,sex_ratio,child_sex_ratio,effective_literacy_rate_total,effective_literacy_rate_male,effective_literacy_rate_female,location,total_graduates,male_graduates,female_graduates&quot;},{&quot;string value&quot;:&quot;Abohar ,3,PUNJAB,9,145238,76840,68398,15870,8587,7283,103319,58347,44972,890,848,79.86,85.49,73.59,\\&quot;30.1452928,74.1993043\\&quot;,16287,8612,7675&quot;},{&quot;string value&quot;:&quot;Achalpur ,27,MAHARASHTRA,7,112293,58256,54037,11810,6186,5624,92433,49347,43086,928,909,91.99,94.77,89,\\&quot;21.257584,77.5086754\\&quot;,8863,5269,3594&quot;},{&quot;string value&quot;:&quot;Adilabad ,28,ANDHRA PRADESH,1,117388,59232,58156,13103,6731,6372,83955,46295,37660,982,947,80.51,88.18,72.73,\\&quot;19.0809075,79.560344\\&quot;,10565,6797,3768&quot;},{&quot;string value&quot;:&quot;Adityapur ,20,JHARKHAND,24,173988,91495,82493,23042,12063,10979,125985,71470,54515,902,910,83.46,89.98,76.23,\\&quot;22.7834741,86.1576889\\&quot;,19225,12189,7036&quot;}],&quot;genId&quot;:&quot;557318616&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pivotChart'], \n      function(playground, _magicpivotChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpivotChart,\n    \"o\": {\"width\":600,\"height\":400,\"derivedAttributes\":{},\"extraOptions\":{}}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon0176b26d5919662b341b90fa6e02f59e&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon47b249ab1a09b832499a2607b58064e8&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div></div>\n        </div>\n      </div></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 13
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "35B79F5902164287879CDDD95BBF1E35"
+    },
+    "cell_type" : "code",
+    "source" : "case class Cities (City:String,StateCode:String,StateName:String,DistCode:String,Population:Int,MenPopulation:Int,WomenPopulation:Int)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "defined class Cities\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 34
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab9705396-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "3FBC5325B52E43AD8CDD07637B20E82B"
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.sql.types._\nval parseData = fileData.zipWithIndex.filter{ x => x._2!=0}.map{l => l._1}.map{ l => l.split(\",\")}\n                        .map{ w =>Cities(w(0),w(1),w(2),w(3),w(4).toInt,w(5).toInt,w(6).toInt)}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import org.apache.spark.sql.types._\r\nparseData: org.apache.spark.rdd.RDD[Cities] = MapPartitionsRDD[37] at map at <console>:71\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 35
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab173122285-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "08E1612AB68D46E68B2C6A8EDB6463FC"
+    },
+    "cell_type" : "code",
+    "source" : "parseData.take(5)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res46: Array[Cities] = Array(Cities(Abohar ,3,PUNJAB,9,145238,76840,68398), Cities(Achalpur ,27,MAHARASHTRA,7,112293,58256,54037), Cities(Adilabad ,28,ANDHRA PRADESH,1,117388,59232,58156), Cities(Adityapur ,20,JHARKHAND,24,173988,91495,82493), Cities(Adoni ,28,ANDHRA PRADESH,21,166537,82743,83794))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anona02698ffd3eab920685b627eb901a85a&quot;,&quot;dataInit&quot;:[{&quot;WomenPopulation&quot;:68398,&quot;DistCode&quot;:&quot;9&quot;,&quot;StateName&quot;:&quot;PUNJAB&quot;,&quot;StateCode&quot;:&quot;3&quot;,&quot;Population&quot;:145238,&quot;City&quot;:&quot;Abohar &quot;,&quot;MenPopulation&quot;:76840},{&quot;WomenPopulation&quot;:54037,&quot;DistCode&quot;:&quot;7&quot;,&quot;StateName&quot;:&quot;MAHARASHTRA&quot;,&quot;StateCode&quot;:&quot;27&quot;,&quot;Population&quot;:112293,&quot;City&quot;:&quot;Achalpur &quot;,&quot;MenPopulation&quot;:58256},{&quot;WomenPopulation&quot;:58156,&quot;DistCode&quot;:&quot;1&quot;,&quot;StateName&quot;:&quot;ANDHRA PRADESH&quot;,&quot;StateCode&quot;:&quot;28&quot;,&quot;Population&quot;:117388,&quot;City&quot;:&quot;Adilabad &quot;,&quot;MenPopulation&quot;:59232},{&quot;WomenPopulation&quot;:82493,&quot;DistCode&quot;:&quot;24&quot;,&quot;StateName&quot;:&quot;JHARKHAND&quot;,&quot;StateCode&quot;:&quot;20&quot;,&quot;Population&quot;:173988,&quot;City&quot;:&quot;Adityapur &quot;,&quot;MenPopulation&quot;:91495},{&quot;WomenPopulation&quot;:83794,&quot;DistCode&quot;:&quot;21&quot;,&quot;StateName&quot;:&quot;ANDHRA PRADESH&quot;,&quot;StateCode&quot;:&quot;28&quot;,&quot;Population&quot;:166537,&quot;City&quot;:&quot;Adoni &quot;,&quot;MenPopulation&quot;:82743}],&quot;genId&quot;:&quot;173122285&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tabs'], \n      function(playground, _magictabs) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictabs,\n    \"o\": {}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <div>\n          <ul class=\"nav nav-tabs\" id=\"ul173122285\"><li>\n                <a href=\"#tab173122285-0\"><i class=\"fa fa-table\"/></a>\n              </li><li>\n                <a href=\"#tab173122285-1\"><i class=\"fa fa-cubes\"/></a>\n              </li></ul>\n\n          <div class=\"tab-content\" id=\"tab173122285\"><div class=\"tab-pane\" id=\"tab173122285-0\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon2ee75c870e49b0918f307ad9c8ba05f8&quot;,&quot;dataInit&quot;:[{&quot;WomenPopulation&quot;:68398,&quot;DistCode&quot;:&quot;9&quot;,&quot;StateName&quot;:&quot;PUNJAB&quot;,&quot;StateCode&quot;:&quot;3&quot;,&quot;Population&quot;:145238,&quot;City&quot;:&quot;Abohar &quot;,&quot;MenPopulation&quot;:76840},{&quot;WomenPopulation&quot;:54037,&quot;DistCode&quot;:&quot;7&quot;,&quot;StateName&quot;:&quot;MAHARASHTRA&quot;,&quot;StateCode&quot;:&quot;27&quot;,&quot;Population&quot;:112293,&quot;City&quot;:&quot;Achalpur &quot;,&quot;MenPopulation&quot;:58256},{&quot;WomenPopulation&quot;:58156,&quot;DistCode&quot;:&quot;1&quot;,&quot;StateName&quot;:&quot;ANDHRA PRADESH&quot;,&quot;StateCode&quot;:&quot;28&quot;,&quot;Population&quot;:117388,&quot;City&quot;:&quot;Adilabad &quot;,&quot;MenPopulation&quot;:59232},{&quot;WomenPopulation&quot;:82493,&quot;DistCode&quot;:&quot;24&quot;,&quot;StateName&quot;:&quot;JHARKHAND&quot;,&quot;StateCode&quot;:&quot;20&quot;,&quot;Population&quot;:173988,&quot;City&quot;:&quot;Adityapur &quot;,&quot;MenPopulation&quot;:91495},{&quot;WomenPopulation&quot;:83794,&quot;DistCode&quot;:&quot;21&quot;,&quot;StateName&quot;:&quot;ANDHRA PRADESH&quot;,&quot;StateCode&quot;:&quot;28&quot;,&quot;Population&quot;:166537,&quot;City&quot;:&quot;Adoni &quot;,&quot;MenPopulation&quot;:82743}],&quot;genId&quot;:&quot;46550118&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"City\",\"StateCode\",\"StateName\",\"DistCode\",\"Population\",\"MenPopulation\",\"WomenPopulation\"],\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anonb29173fb841adfbb91677f23b689fac2&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon21e130b01b768fb25b44575dd26e2571&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab173122285-1\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anondd42b2bf240df4042cd1f6690bf41404&quot;,&quot;dataInit&quot;:[{&quot;WomenPopulation&quot;:68398,&quot;DistCode&quot;:&quot;9&quot;,&quot;StateName&quot;:&quot;PUNJAB&quot;,&quot;StateCode&quot;:&quot;3&quot;,&quot;Population&quot;:145238,&quot;City&quot;:&quot;Abohar &quot;,&quot;MenPopulation&quot;:76840},{&quot;WomenPopulation&quot;:54037,&quot;DistCode&quot;:&quot;7&quot;,&quot;StateName&quot;:&quot;MAHARASHTRA&quot;,&quot;StateCode&quot;:&quot;27&quot;,&quot;Population&quot;:112293,&quot;City&quot;:&quot;Achalpur &quot;,&quot;MenPopulation&quot;:58256},{&quot;WomenPopulation&quot;:58156,&quot;DistCode&quot;:&quot;1&quot;,&quot;StateName&quot;:&quot;ANDHRA PRADESH&quot;,&quot;StateCode&quot;:&quot;28&quot;,&quot;Population&quot;:117388,&quot;City&quot;:&quot;Adilabad &quot;,&quot;MenPopulation&quot;:59232},{&quot;WomenPopulation&quot;:82493,&quot;DistCode&quot;:&quot;24&quot;,&quot;StateName&quot;:&quot;JHARKHAND&quot;,&quot;StateCode&quot;:&quot;20&quot;,&quot;Population&quot;:173988,&quot;City&quot;:&quot;Adityapur &quot;,&quot;MenPopulation&quot;:91495},{&quot;WomenPopulation&quot;:83794,&quot;DistCode&quot;:&quot;21&quot;,&quot;StateName&quot;:&quot;ANDHRA PRADESH&quot;,&quot;StateCode&quot;:&quot;28&quot;,&quot;Population&quot;:166537,&quot;City&quot;:&quot;Adoni &quot;,&quot;MenPopulation&quot;:82743}],&quot;genId&quot;:&quot;1385412563&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pivotChart'], \n      function(playground, _magicpivotChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpivotChart,\n    \"o\": {\"width\":600,\"height\":400,\"derivedAttributes\":{},\"extraOptions\":{}}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon13d2d43c82c5753ec5d42d9f1331466f&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anond39bf09b40fd0a340e24e409bfaf3bee&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div></div>\n        </div>\n      </div></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 36
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "01EA9C277948491F8159AFEDEA252BD9"
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.sql.SQLContext\nval sqlContext = new SQLContext(sc)\n",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import org.apache.spark.sql.SQLContext\r\nsqlContext: org.apache.spark.sql.SQLContext = org.apache.spark.sql.SQLContext@29c897ad\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 39
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "8177C6CC89E54F928914E7697426F589"
+    },
+    "cell_type" : "code",
+    "source" : "import sqlContext.implicits._\nval populationDF = parseData.toDF",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import sqlContext.implicits._\r\npopulationDF: org.apache.spark.sql.DataFrame = [City: string, StateCode: string, StateName: string, DistCode: string, Population: int, MenPopulation: int, WomenPopulation: int]\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 42
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "BA3719CE08FD4742BAB6A5215D6BED92"
+    },
+    "cell_type" : "code",
+    "source" : "populationDF.show(1)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "+-------+---------+---------+--------+----------+-------------+---------------+\n|   City|StateCode|StateName|DistCode|Population|MenPopulation|WomenPopulation|\n+-------+---------+---------+--------+----------+-------------+---------------+\n|Abohar |        3|   PUNJAB|       9|    145238|        76840|          68398|\n+-------+---------+---------+--------+----------+-------------+---------------+\nonly showing top 1 row\n\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 43
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "44DAAB2F005648848246CC7886B8D7BF"
+    },
+    "cell_type" : "code",
+    "source" : "populationDF.registerTempTable(\"population\")",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 45
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "AF452307F71A4AF89DDE905D0FA7BA59"
+    },
+    "cell_type" : "code",
+    "source" : "sqlContext.sql(\"select StateName,count(0) as cnt from population group by StateName order by cnt desc \").show",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "+---------------+---+\n|      StateName|cnt|\n+---------------+---+\n|  UTTAR PRADESH| 63|\n|    WEST BENGAL| 61|\n|    MAHARASHTRA| 43|\n| ANDHRA PRADESH| 42|\n|     TAMIL NADU| 32|\n| MADHYA PRADESH| 32|\n|        GUJARAT| 29|\n|      RAJASTHAN| 29|\n|          BIHAR| 26|\n|      KARNATAKA| 26|\n|        HARYANA| 20|\n|         PUNJAB| 16|\n|   NCT OF DELHI| 15|\n|         ORISSA| 10|\n|      JHARKHAND| 10|\n|   CHHATTISGARH|  9|\n|         KERALA|  7|\n|    UTTARAKHAND|  6|\n|          ASSAM|  4|\n|JAMMU & KASHMIR|  3|\n+---------------+---+\nonly showing top 20 rows\n\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 53
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "9AC16B52134C4FA39BB3EF30E5030CB3"
+    },
+    "cell_type" : "code",
+    "source" : "case class city(name_of_city: String, state_code: String, state_name: String, dist_code: String,\npopulation_total: String, population_male: String, population_female: String, \n_population_total06: String, _population_male06: String, _population_female06: String, literates_total: String, \nliterates_male: String, literates_female: String, s06ex_ratio: String, child_sex_ratio: String, effective_literacy_rate_total: String, \neffective_literacy_rate_male: String, effective_literacy_rate_female: String, location: String, total_graduates: String, \nmale_graduates: String, female_graduates: String)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "defined class city\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 64
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "33F7EB233C08493C9F940A84FE5BB77A"
+    },
+    "cell_type" : "code",
+    "source" : "val populationDirectDF = sqlContext.read\n                                    .format(\"csv\")\n                                    .option(\"header\",\"true\")\n                                    .load(\"../DataSet/cities_r2.csv\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "populationDirectDF: org.apache.spark.sql.DataFrame = [name_of_city: string, state_code: string, state_name: string, dist_code: string, population_total: string, population_male: string, population_female: string, 0-6_population_total: string, 0-6_population_male: string, 0-6_population_female: string, literates_total: string, literates_male: string, literates_female: string, sex_ratio: string, child_sex_ratio: string, effective_literacy_rate_total: string, effective_literacy_rate_male: string, effective_literacy_rate_female: string, location: string, total_graduates: string, male_graduates: string, female_graduates: string]\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 67
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "B9B95DFF33194EAB96E50804E48931C4"
+    },
+    "cell_type" : "code",
+    "source" : "populationl = sqlContext.sql(\"select name_of_city as City, State_Name as State , population as Totat",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "limitedDF: org.apache.spark.rdd.RDD[Array[Any]] = MapPartitionsRDD[88] at map at <console>:76\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 69
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab643696927-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "820B36A2F21248F7B5E2BC2A59E8CB96"
+    },
+    "cell_type" : "code",
+    "source" : "limitedDF.take(5)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res96: Array[Array[Any]] = Array(Array(\"Abohar \", 3, PUNJAB), Array(\"Achalpur \", 27, MAHARASHTRA), Array(\"Adilabad \", 28, ANDHRA PRADESH), Array(\"Adityapur \", 20, JHARKHAND), Array(\"Adoni \", 28, ANDHRA PRADESH))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon9e19539844dcf9444a240e1c23bb3afb&quot;,&quot;dataInit&quot;:[{},{},{},{},{}],&quot;genId&quot;:&quot;643696927&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tabs'], \n      function(playground, _magictabs) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictabs,\n    \"o\": {}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <div>\n          <ul class=\"nav nav-tabs\" id=\"ul643696927\"><li>\n                <a href=\"#tab643696927-0\"><i class=\"fa fa-table\"/></a>\n              </li><li>\n                <a href=\"#tab643696927-1\"><i class=\"fa fa-cubes\"/></a>\n              </li></ul>\n\n          <div class=\"tab-content\" id=\"tab643696927\"><div class=\"tab-pane\" id=\"tab643696927-0\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon0dc207e776a2c9322fbccdd4a5ba46e6&quot;,&quot;dataInit&quot;:[{},{},{},{},{}],&quot;genId&quot;:&quot;992758207&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[],\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon3addc301118c00c59645ca1124927eff&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon121197ca594752e5f7a513e1e590f8e2&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab643696927-1\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anonbfbfb35ada9c541fc6d15878f3ea6128&quot;,&quot;dataInit&quot;:[{},{},{},{},{}],&quot;genId&quot;:&quot;1568816232&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pivotChart'], \n      function(playground, _magicpivotChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpivotChart,\n    \"o\": {\"width\":600,\"height\":400,\"derivedAttributes\":{},\"extraOptions\":{}}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon13a8fe097572c28f5ce0e12309a2eab7&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anone5b91cc989f5a09a8afbee7375ce20b1&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div></div>\n        </div>\n      </div></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 72
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true,
+      "id" : "C286F22F57C644E793124BA7B1DD74AE"
+    },
+    "cell_type" : "code",
+    "source" : "",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}
